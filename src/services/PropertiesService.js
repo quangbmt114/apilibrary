@@ -1,5 +1,5 @@
 const { db } = require("../../untils");
-
+const { ObjectId } = require("mongodb");
 async function listProperties() {
   try {
     const data = db.collection("list-properties");
@@ -24,8 +24,21 @@ async function createProperties(value) {
 }
 async function updateProperties(value) {
   try {
+    console.log(value._id);
     const data = db.collection("list-properties");
-    const result = await data.findOneAndUpdate(value);
+    const result = await data.findOneAndUpdate(
+      {
+        _id: new ObjectId(value._id),
+      },
+      {
+        $set: {
+          title: value.title,
+          image: value.image,
+          price: value.price,
+          description: value.description,
+        },
+      }
+    );
     console.log(result);
     return result;
   } catch (error) {

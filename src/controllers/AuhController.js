@@ -2,7 +2,6 @@ const AuthService = require("../services/AuthService");
 const { db } = require("../../untils");
 async function Login(req, res) {
   const { email, password } = req.body;
-  
   try {
     const loginResult = await AuthService.Login({ email, password });
     console.log("loginResult", loginResult);
@@ -13,7 +12,7 @@ async function Login(req, res) {
         access_token: loginResult.access_token,
       });
     } else {
-      return res.status(401).json({
+      return res.status(404).json({
         message: "sai email hoặc password",
       });
     }
